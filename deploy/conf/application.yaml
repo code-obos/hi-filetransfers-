@@ -1,0 +1,53 @@
+# Environment-independent common properties
+spring:
+  application:
+    name: hi-filetransfers
+    description: Filetransfer service between as400 and azure storage
+  boot:
+    admin:
+      client:
+        url: ${SPRING_BOOT_ADMIN_URL}
+        username: woi
+        password: ${SPRING_BOOT_ADMIN_CLIENT_PASSWORD}
+      instance:
+        prefer-ip: true
+
+management:
+  info:
+    build:
+      enabled: true
+    java:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+      show-details: always
+
+server:
+  port: 42121
+
+logging:
+  level:
+    root: INFO
+    no.obos: INFO
+springdoc:
+  api-docs:
+    path: /swagger
+
+healthcheck:
+  services:
+    - name: token-service
+      url: ${services.token-service.url}
+
+services:
+  token-service:
+    url: ${obos.baseUrl.token-service}/tokenservice
+    appId: 121
+    appSecret: ${TOKENSERVICE_APP_SECRET}
+    acceptedAppIds: 5, 118

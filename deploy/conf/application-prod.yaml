@@ -1,0 +1,20 @@
+# Production specific properties goes here
+obos:
+  baseUrl:
+    api: http://api.obos.no
+    app: http://app.obos.no
+    token-service: https://sso.obos.no
+
+file-server:
+  as400:
+    username: ${AS400_USERNAME}
+    password: ${AS400_PASSWORD}
+    host: obos.obos.no
+    shareAndDir: hi
+
+logging:
+  config: /opt/app/logback-spring.xml
+  level:
+    no.obos: INFO
+    org.springframework: WARN
+    org.hibernate: WARN

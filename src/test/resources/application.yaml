@@ -1,0 +1,4 @@
+# Insert properties with mock values that are necessary for the service context tests to run
+spring:
+  application:
+    name: hi-filetransfers

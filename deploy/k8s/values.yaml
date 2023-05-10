@@ -1,0 +1,19 @@
+image:
+  tag: __IMAGE_TAG__
+  repository: registry.obos.no/obos/hi-filetransfers
+vault:
+  role: hi-filetransfers-v__MAJOR_VERSION__-__ENV__
+  secretLocation: woi/hi-filetransfers/v__MAJOR_VERSION__/__ENV__
+container:
+  environment: __ENV__
+  port: 42121
+version:
+  buildNo: __BUILD_NO__
+  gitHash: __GIT_HASH__
+application:
+  serviceGroup: hi-filetransfers
+  serviceName: hi-filetransfers
+ingress:
+  path: __INGRESS_PATH_PREFIX__/hi-filetransfers/v__MAJOR_VERSION__
+splunk:
+  sourcetype: hi-filetransfers/v__MAJOR_VERSION__.__MINOR_VERSION____SOURCETYPE_SUFFIX__

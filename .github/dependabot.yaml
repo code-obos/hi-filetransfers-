@@ -1,0 +1,23 @@
+# GitHub dependabot configuration file
+# Paths are relative to the repository root, not this file
+
+version: 2
+updates:
+  # Enable version updates for Maven
+  - package-ecosystem: "maven"
+    # Look for a (root / parent) pom.xml. Dependabot also fetches poms for all modules
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Disable version updates; does not disable security updates
+    open-pull-requests-limit: 0
+
+  # Enable version updates for Docker
+  - package-ecosystem: "docker"
+    # Look for a `Dockerfile`
+    directory: "/"
+    # Check for updates once a week
+    schedule:
+      interval: "weekly"
+    # Disable version updates; does not disable security updates
+    open-pull-requests-limit: 0

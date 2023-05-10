@@ -1,0 +1,20 @@
+# Test environment specific properties goes here
+obos:
+  baseUrl:
+    api: http://test-api.obos.no
+    app: http://test-app.obos.no
+    token-service: http://testsso.obos.no
+
+file-server:
+  as400:
+    username: ${AS400_USERNAME}
+    password: ${AS400_PASSWORD}
+    host: 10.10.0.81
+    shareAndDir: hi/onprop
+
+logging:
+  config: /opt/app/logback-spring.xml
+  level:
+    no.obos: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
