@@ -9,10 +9,3 @@ services:
   spring-boot-admin:
     #No URL disables SBA
     url:
-
-file-server:
-  as400:
-    username: ${AS400_USERNAME}
-    password: ${AS400_PASSWORD}
-    host: obos.obos.no
-    shareAndDir: hi/onprop
