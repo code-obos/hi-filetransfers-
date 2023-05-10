@@ -9,7 +9,7 @@ file-server:
   as400:
     username: ${AS400_USERNAME}
     password: ${AS400_PASSWORD}
-    host: 10.10.0.81
+    host: obos.obos.no
     shareAndDir: hi/onprop
 
 logging:

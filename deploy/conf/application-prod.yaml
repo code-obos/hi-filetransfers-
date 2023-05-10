@@ -9,7 +9,7 @@ file-server:
   as400:
     username: ${AS400_USERNAME}
     password: ${AS400_PASSWORD}
-    host: obos.obos.no
+    host: obos2.obos.no
     shareAndDir: hi
 
 logging:
