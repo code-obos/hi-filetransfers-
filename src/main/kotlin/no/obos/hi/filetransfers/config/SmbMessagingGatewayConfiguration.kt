@@ -27,11 +27,11 @@ class SmbMessagingGatewayConfiguration {
     @Bean
     fun smbSessionFactory(): SmbSessionFactory? {
         val smbSession = SmbSessionFactory()
-        smbSession.username = username
-        smbSession.port = 445
-        smbSession.password = password
-        smbSession.shareAndDir = shareAndDir
         smbSession.host = host
+        smbSession.username = username
+        smbSession.password = password
+        smbSession.port = 445
+        smbSession.shareAndDir = shareAndDir
         smbSession.smbMinVersion = DialectVersion.SMB210
         smbSession.smbMaxVersion = DialectVersion.SMB311
         return smbSession

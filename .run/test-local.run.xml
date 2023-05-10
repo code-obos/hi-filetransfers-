@@ -12,10 +12,8 @@
       <option name="IS_ENABLE_EXPERIMENTAL_INTEGRATIONS" value="true" />
       <ENTRIES>
         <ENTRY IS_ENABLED="true" PARSER="runconfig" IS_EXECUTABLE="false" />
-        <ENTRY IS_ENABLED="false" PARSER="env" IS_EXECUTABLE="false" PATH=".env/test-local.env" />
-        <ENTRY IS_ENABLED="false" PARSER="env" IS_EXECUTABLE="false" PATH=".env/test-local.env" />
-        <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="$USER_HOME$/.vault/hi-filetransfers/v1/test.env" />
         <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH=".env/test-local.env" />
+        <ENTRY IS_ENABLED="true" PARSER="env" IS_EXECUTABLE="false" PATH="$USER_HOME$/.vault/hi-filetransfers/v1/test.env" />
       </ENTRIES>
     </extension>
     <method v="2">
