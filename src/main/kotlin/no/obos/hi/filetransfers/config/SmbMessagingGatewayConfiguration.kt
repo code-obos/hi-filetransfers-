@@ -10,7 +10,6 @@ import org.springframework.integration.file.support.FileExistsMode
 import org.springframework.integration.smb.dsl.Smb
 import org.springframework.integration.smb.session.SmbSessionFactory
 
-
 @EnableIntegration
 @ConfigurationProperties(prefix = "file-server.as400")
 @Configuration
