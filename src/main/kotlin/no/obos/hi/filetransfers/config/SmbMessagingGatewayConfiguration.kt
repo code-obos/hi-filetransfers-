@@ -15,9 +15,9 @@ import org.springframework.integration.smb.session.SmbSessionFactory
 @ConfigurationProperties(prefix = "file-server.as400")
 @Configuration
 class SmbMessagingGatewayConfiguration {
+    lateinit var host: String
     lateinit var username: String
     lateinit var password: String
-    lateinit var host: String
     lateinit var shareAndDir: String
 
     var toDirectory: String = "til"
