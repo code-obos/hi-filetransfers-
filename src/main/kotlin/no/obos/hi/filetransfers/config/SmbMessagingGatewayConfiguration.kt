@@ -22,15 +22,16 @@ class SmbMessagingGatewayConfiguration {
 
     var toDirectory: String = "til"
     var fromDirectory: String = "fra"
+    var smbChannel = "toSmbChannel";
 
     @Bean
     fun smbSessionFactory(): SmbSessionFactory? {
         val smbSession = SmbSessionFactory()
-        smbSession.host = host
-        smbSession.port = 445
         smbSession.username = username
+        smbSession.port = 445
         smbSession.password = password
         smbSession.shareAndDir = shareAndDir
+        smbSession.host = host
         smbSession.smbMinVersion = DialectVersion.SMB210
         smbSession.smbMaxVersion = DialectVersion.SMB311
         return smbSession
@@ -38,7 +39,7 @@ class SmbMessagingGatewayConfiguration {
 
     @Bean
     fun smbOutboundFlow(): IntegrationFlow? {
-        return IntegrationFlow.from("toSmbChannel")
+        return IntegrationFlow.from(smbChannel)
             .handle(
                 Smb.outboundAdapter(smbSessionFactory(), FileExistsMode.REPLACE)
                     .useTemporaryFileName(false)

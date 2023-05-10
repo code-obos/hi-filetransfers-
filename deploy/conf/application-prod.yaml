@@ -10,7 +10,7 @@ file-server:
     username: ${AS400_USERNAME}
     password: ${AS400_PASSWORD}
     host: obos2.obos.no
-    shareAndDir: hi
+    shareAndDir: hi/onprop
 
 logging:
   config: /opt/app/logback-spring.xml

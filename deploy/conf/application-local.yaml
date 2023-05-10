@@ -15,4 +15,4 @@ file-server:
     username: ${AS400_USERNAME}
     password: ${AS400_PASSWORD}
     host: obos.obos.no
-    shareAndDir: hi
+    shareAndDir: hi/onprop
