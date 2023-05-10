@@ -2,7 +2,7 @@
 @Library('obos-jenkins@v4')
 import no.obos.jenkins.Utils
 
-def CLUSTER = "app"
+def CLUSTER = "int"
 def CHART = "spring-boot"
 def CHART_VERSION = "0"
 
