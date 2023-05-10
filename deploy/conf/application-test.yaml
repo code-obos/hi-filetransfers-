@@ -5,16 +5,16 @@ obos:
     app: http://test-app.obos.no
     token-service: http://testsso.obos.no
 
-file-server:
-  as400:
-    username: ${AS400_USERNAME}
-    password: ${AS400_PASSWORD}
-    host: obos.obos.no
-    shareAndDir: hi/onprop
-
 logging:
   config: /opt/app/logback-spring.xml
   level:
     no.obos: INFO
     org.springframework: WARN
     org.hibernate: WARN
+
+file-server:
+  as400:
+    username: ${AS400_USERNAME}
+    password: ${AS400_PASSWORD}
+    host: obos.obos.no
+    shareAndFolder: hi/onprop
