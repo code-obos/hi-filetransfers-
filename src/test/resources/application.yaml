@@ -2,3 +2,10 @@
 spring:
   application:
     name: hi-filetransfers
+
+file-server:
+  as400:
+    username: mock
+    password: mock
+    host: mock
+    shareAndFolder: hi/onprop
