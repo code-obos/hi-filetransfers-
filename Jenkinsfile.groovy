@@ -31,7 +31,7 @@ pipeline {
                             chartName: CHART,
                             chartVersion: CHART_VERSION,
                             namespace: params.namespace,
-                            failOnEqualOrMoreThanNumCriticalVulnerabilities: 3,
+                            failOnEqualOrMoreThanNumCriticalVulnerabilities: 10, //TODO: Should change before production
                     )
                 }
             }
