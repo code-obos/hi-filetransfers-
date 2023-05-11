@@ -8,4 +8,4 @@ file-server:
     username: mock
     password: mock
     host: mock
-    shareAndFolder: hi/onprop
+    shareAndDir: hi/onprop
