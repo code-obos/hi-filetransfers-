@@ -6,5 +6,5 @@ SPRING_CONF="--spring.config.location=file:/opt/conf/"
 
 java ${MEMORY_CONF} \
   -cp opt/app:opt/app/lib/* \
-  no.obos.hi-filetransfers.ApplicationKt \
+  no.obos.hi.filetransfers.ApplicationKt \
   ${SPRING_CONF}
