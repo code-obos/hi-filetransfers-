@@ -50,4 +50,4 @@ services:
     url: ${obos.baseUrl.token-service}/tokenservice
     appId: 121
     appSecret: ${TOKENSERVICE_APP_SECRET}
-    acceptedAppIds: 5, 118
+    acceptedAppIds: 5, 49, 118

@@ -10,7 +10,6 @@ FROM registry.obos.no/3rd/eclipse-temurin:17.0.3_7-jre-alpine
 ARG PORT
 # Setup
 RUN addgroup -S spring && adduser -S spring -G spring
-RUN chown -R spring:spring /opt
 
 
 # Application, configuration and log directories
@@ -26,6 +25,8 @@ RUN mkdir -p ${APP_DIR}  \
     && mkdir -p /opt/app/tmp/from  \
     && mkdir -p /opt/app/tmp/to \
     && mkdir -p /opt/app/tmp/from
+
+RUN chown -R spring:spring /opt
 
 # Dependency layers for the application
 COPY --from=build build/BOOT-INF/lib ${APP_DIR}/lib
