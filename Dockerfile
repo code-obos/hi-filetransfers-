@@ -25,7 +25,7 @@ RUN mkdir -p ${APP_DIR}  \
     && mkdir -p /opt/log_old  \
     && mkdir -p /opt/app/tmp/from  \
     && mkdir -p /opt/app/tmp/to \
-    && mkdrir -p /opt/app/tmp/from \
+    && mkdir -p /opt/app/tmp/from \
 
 # Dependency layers for the application
 COPY --from=build build/BOOT-INF/lib ${APP_DIR}/lib
