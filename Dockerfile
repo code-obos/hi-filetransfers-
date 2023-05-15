@@ -19,7 +19,13 @@ RUN mkdir -p ${APP_DIR} && mkdir -p opt/conf && mkdir -p /opt/log && mkdir -p /o
 
 # Application, configuration and log directories
 ARG APP_DIR=/opt/app
-RUN mkdir -p ${APP_DIR} && mkdir -p opt/conf && mkdir -p /opt/log && mkdir -p /opt/log_old && mkdir -p /opt/app/tmp/from && mkdir -p /opt/app/tmp/to
+RUN mkdir -p ${APP_DIR}  \
+    && mkdir -p opt/conf  \
+    && mkdir -p /opt/log  \
+    && mkdir -p /opt/log_old  \
+    && mkdir -p /opt/app/tmp/from  \
+    && mkdir -p /opt/app/tmp/to \
+    && mkdrir -p /opt/app/tmp/from \
 
 # Dependency layers for the application
 COPY --from=build build/BOOT-INF/lib ${APP_DIR}/lib

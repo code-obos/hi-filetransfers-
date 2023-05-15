@@ -10,18 +10,15 @@ services:
     #No URL disables SBA
     url:
 
-localDirPathTo: ./tmp/in
-localDirPathFrom: ./tmp/from
-
 file-server:
   username: ${AS400_USERNAME}
   password: ${AS400_PASSWORD}
   host: obos.obos.no
   remoteBaseDir: hi
-  localDirPathTo: ${localDirPathTo}
-  localDirPathFrom: ${localDirPathFrom}
+  localDirPathTo: ./tmp/in
+  localDirPathFrom: ./tmp/from
 
 
 localdirpath:
-  toPath: ${localDirPathTo}
-  fromPath: ${localDirPathFrom}
+  toPath: ./tmp/in
+  fromPath: ./tmp/from

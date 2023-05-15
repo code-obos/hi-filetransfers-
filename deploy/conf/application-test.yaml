@@ -12,14 +12,17 @@ logging:
     org.springframework: WARN
     org.hibernate: WARN
 
+localDirPathTo: ./tmp/in
+localDirPathFrom: ./tmp/from
+
 file-server:
     username: ${AS400_USERNAME}
     password: ${AS400_PASSWORD}
     host: obos.obos.no
     remoteBaseDir: hi
     localDirPathTo: /opt/app/tmp/to
-    localDirPathFrom: /opt/app/tmp/out
+    localDirPathFrom: /opt/app/tmp/from
 
 localdirpath:
-  toPath: /opt/app/tmp/to
-  fromPath: /opt/app/tmp/out
+  localDirPathTo: /opt/app/tmp/to
+  localDirPathFrom: /opt/app/tmp/from

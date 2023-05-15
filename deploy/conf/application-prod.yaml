@@ -11,11 +11,11 @@ obos:
     host: obos2.obos.no
     remoteBaseDir: hi
     localDirPathTo: /opt/app/tmp/to
-    localDirPathFrom: /opt/app/tmp/out
+    localDirPathFrom: /opt/app/tmp/from
 
   localdirpath:
-    toPath: ./test/in
-    fromPath: ./test/from
+    toPath: /opt/app/tmp/to
+    fromPath: /opt/app/tmp/from
 
 logging:
   config: /opt/app/logback-spring.xml
