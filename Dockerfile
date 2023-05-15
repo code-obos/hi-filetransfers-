@@ -34,7 +34,7 @@ COPY --from=build build/BOOT-INF/classes ${APP_DIR}
 
 # Starting binary
 ADD deploy/bin/start.sh /
-RUN chmod 755 /start.sh
+RUN chmod 777 /start.sh
 
 USER spring
 EXPOSE $PORT
