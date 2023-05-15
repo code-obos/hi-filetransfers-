@@ -13,8 +13,6 @@ import org.springframework.integration.smb.dsl.Smb
 import org.springframework.integration.smb.session.SmbSessionFactory
 import org.springframework.messaging.Message
 import java.io.File
-import java.time.LocalDate
-import java.util.*
 
 
 @EnableIntegration
@@ -26,13 +24,12 @@ class SmbMessagingGatewayConfiguration() {
     lateinit var password: String
     lateinit var remoteBaseDir: String
     lateinit var localDirPathTo: String
-    lateinit var localDirPathFrom: String
 
     var toDirectory: String = "onprop/til"
     var fromDirectory: String = "onprop/fra"
     val backupDirectory: String = "onprop/til/backup"
-    var toAs400Channel = "toAs400Channel";
-    var toBackupInAs400Channel = "toBackupInAs400Channel";
+    var toAs400Channel = "toAs400Channel"
+    var toBackupInAs400Channel = "toBackupInAs400Channel"
 
     @Bean
     fun smbSessionFactory(): SmbSessionFactory? {
@@ -66,7 +63,7 @@ class SmbMessagingGatewayConfiguration() {
                 .remoteDirectory(toDirectory)
                 .autoCreateLocalDirectory(true)
                 .regexFilter(".*\\.txt$")
-                .localDirectory(File(localDirPathFrom))
+                .localDirectory(File(localDirPathTo))
                 .deleteRemoteFiles(true)
             ) { e: SourcePollingChannelAdapterSpec ->
                 e.id("smbInboundAdapter")
@@ -74,36 +71,22 @@ class SmbMessagingGatewayConfiguration() {
                     .poller(Pollers.fixedDelay(5000))
             }
             .handle { m: Message<*> ->
-
                 println(
-                    "This is from the payload: ${m.headers["file_name"]}" +
-                    "This is from the payload: ${m.payload}"
+                    "Added file ${m.headers["file_name"]} to folder $localDirPathTo"
                 )
             }
             .get()
     }
+
     @Bean
     fun smbBackupFlow(): IntegrationFlow? {
         return IntegrationFlow.from(toBackupInAs400Channel)
             .handle(
-                Smb.outboundAdapter(smbSessionFactory(), FileExistsMode.REPLACE)
+                Smb.outboundAdapter(smbSessionFactory(), FileExistsMode.IGNORE)
                     .useTemporaryFileName(false)
                     .autoCreateDirectory(true)
-                    .remoteDirectory("${backupDirectory}/${getCurrentYear()}/${getMonthNumeric()}")
+                    .remoteDirectory(backupDirectory)
             ).get()
-    }
-
-    fun getMonthNumeric(): String {
-        val date = Date()
-        val cal = Calendar.getInstance()
-        cal.time = date
-        val month = cal[Calendar.MONTH] + 1
-
-        return if (month < 10) "0${month}" else month.toString()
-    }
-
-    fun getCurrentYear(): String {
-        return Calendar.getInstance().get(Calendar.YEAR).toString();
     }
 
 }

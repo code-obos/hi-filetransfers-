@@ -9,7 +9,6 @@ file-server:
   host: mock
   remoteBaseDir: hi
   localDirPathTo: ./resources/tmp/to
-  localDirPathFrom: ./resources/tmp/from
 
 localdirpath:
   toPath: ./resources/tmp/to

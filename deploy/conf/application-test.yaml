@@ -21,7 +21,6 @@ file-server:
     host: obos.obos.no
     remoteBaseDir: hi
     localDirPathTo: /opt/app/tmp/to
-    localDirPathFrom: /opt/app/tmp/from
 
 localdirpath:
   toPath: /opt/app/tmp/to
