@@ -15,10 +15,9 @@ file-server:
   password: ${AS400_PASSWORD}
   host: obos.obos.no
   remoteBaseDir: hi
-  localDirPathTo: ./tmp/in
+  localDirPathTo: ./tmp/to
   localDirPathFrom: ./tmp/from
 
-
 localdirpath:
-  toPath: ./tmp/in
+  toPath: ./tmp/to
   fromPath: ./tmp/from

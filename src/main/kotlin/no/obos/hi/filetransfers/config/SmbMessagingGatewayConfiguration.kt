@@ -29,8 +29,8 @@ class SmbMessagingGatewayConfiguration() {
     lateinit var localDirPathFrom: String
 
     var toDirectory: String = "onprop/til"
-    val backupDirectory: String = "onprop/til/backup"
     var fromDirectory: String = "onprop/fra"
+    val backupDirectory: String = "onprop/til/backup"
     var toAs400Channel = "toAs400Channel";
     var toBackupInAs400Channel = "toBackupInAs400Channel";
 
@@ -53,8 +53,8 @@ class SmbMessagingGatewayConfiguration() {
             .handle(
                 Smb.outboundAdapter(smbSessionFactory(), FileExistsMode.REPLACE)
                     .useTemporaryFileName(false)
-                    .remoteDirectory(backupDirectory)
                     .autoCreateDirectory(true)
+                    .remoteDirectory(fromDirectory)
             ).get()
     }
 
@@ -64,10 +64,10 @@ class SmbMessagingGatewayConfiguration() {
             .from(Smb.inboundAdapter(smbSessionFactory())
                 .preserveTimestamp(true)
                 .remoteDirectory(toDirectory)
+                .autoCreateLocalDirectory(true)
                 .regexFilter(".*\\.txt$")
                 .localDirectory(File(localDirPathFrom))
                 .deleteRemoteFiles(true)
-                .autoCreateLocalDirectory(true)
             ) { e: SourcePollingChannelAdapterSpec ->
                 e.id("smbInboundAdapter")
                     .autoStartup(true)
