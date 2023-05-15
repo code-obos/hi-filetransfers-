@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RestController
 )
 
 @RestController
-@RequestMapping("file")
+@RequestMapping("transfer")
 class SmbMessagingController(val smbMessagingProcessor: SmbMessagingProcessor): TokenServiceController {
 
-    @PostMapping("transfer")
+    @PostMapping("file")
     @Operation(description = "Stores file in to AS400")
     fun process(fileDto: FileDto): ResponseEntity<*> {
         smbMessagingProcessor.processFileToAs400(fileDto)
         return ResponseEntity.status(HttpStatus.OK).body(null)
     }
 
-    @PostMapping("transfer")
-    @Operation(description = "Stores file in to AS400")
+    @PostMapping("files")
+    @Operation(description = "Stores files in to AS400")
     fun process(fileDto: List<FileDto>): ResponseEntity<*> {
         smbMessagingProcessor.processFilesToAs400(fileDto)
         return ResponseEntity.status(HttpStatus.OK).body(null)
