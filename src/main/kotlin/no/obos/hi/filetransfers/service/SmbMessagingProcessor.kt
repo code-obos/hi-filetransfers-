@@ -1,23 +1,39 @@
 package no.obos.hi.filetransfers.service
 
-
+import no.obos.hi.filetransfers.config.LocalDirectoryConfig
+import no.obos.hi.filetransfers.model.FileDto
 import org.slf4j.Logger
 import org.springframework.stereotype.Service
 import java.io.File
+import java.util.*
 
 @Service
 class SmbMessagingProcessor(
     val smbMessagingGateway : SmbMessagingGateway,
+    val localDirectoryConfig: LocalDirectoryConfig,
     val appLogger: Logger
 ) {
 
-    fun process() {
-        appLogger.info("Starting transfer")
-        val file = FileUtil.constructFile("./tmp")
-        appLogger.info("local file: ${FileUtil.absolutePath(file)}")
-        FileUtil.writeBytes(file, "test".toByteArray())
-        appLogger.info("writing file to smb messaging gateway")
-        smbMessagingGateway.sendToSmb(file)
+    fun processFilesToAs400(fileDto: FileDto) {
+        try {
+            appLogger.info("Starting file transfer")
+            val string = decodeBase64String(fileDto)
+            val file = FileUtil.constructFile("${localDirectoryConfig.toPath}/${fileDto.filename}.txt")
+            FileUtil.writeBytes(file, string.toByteArray())
+            appLogger.info("local file: ${FileUtil.absolutePath(file)}")
+            appLogger.info("writing file to smb messaging gateway")
+            smbMessagingGateway.toAs400Channel(file);
+        } catch (e: Exception) {
+            appLogger.info(e.message);
+        }
+    }
+
+    fun processFilesToAzureStorage() {
+
+    }
+
+    fun decodeBase64String(fileDto: FileDto): String {
+        return String(Base64.getDecoder().decode(fileDto.content))
     }
 
     @Suppress("RedundantNullableReturnType")

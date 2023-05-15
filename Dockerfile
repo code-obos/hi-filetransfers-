@@ -17,6 +17,10 @@ RUN chown -R spring:spring /opt
 ARG APP_DIR=/opt/app
 RUN mkdir -p ${APP_DIR} && mkdir -p opt/conf && mkdir -p /opt/log && mkdir -p /opt/log_old
 
+# Application, configuration and log directories
+ARG APP_DIR=/opt/app
+RUN mkdir -p ${APP_DIR} && mkdir -p opt/conf && mkdir -p /opt/log && mkdir -p /opt/log_old && mkdir -p /opt/app/tmp/from && mkdir -p /opt/app/tmp/to
+
 # Dependency layers for the application
 COPY --from=build build/BOOT-INF/lib ${APP_DIR}/lib
 COPY --from=build build/META-INF ${APP_DIR}/META-INF

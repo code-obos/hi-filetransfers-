@@ -2,3 +2,15 @@
 spring:
   application:
     name: hi-filetransfers
+
+file-server:
+  username: mock
+  password: mock
+  host: mock
+  remoteBaseDir: hi
+  localDirPathTo: ./resources/test/to
+  localDirPathFrom: ./resources/test/from
+
+localdirpath:
+  toPath: ./resources/test/to
+  fromPath: ./resources/test/from
