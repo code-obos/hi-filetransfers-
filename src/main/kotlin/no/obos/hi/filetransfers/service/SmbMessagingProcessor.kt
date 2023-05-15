@@ -14,18 +14,33 @@ class SmbMessagingProcessor(
     val appLogger: Logger
 ) {
 
-    fun processFilesToAs400(fileDto: FileDto) {
+    fun processFileToAs400(fileDto: FileDto) {
         try {
-            appLogger.info("Starting file transfer")
-            val string = decodeBase64String(fileDto)
-            val file = FileUtil.constructFile("${localDirectoryConfig.toPath}/${fileDto.filename}.txt")
-            FileUtil.writeBytes(file, string.toByteArray())
-            appLogger.info("local file: ${FileUtil.absolutePath(file)}")
-            appLogger.info("writing file to smb messaging gateway")
-            smbMessagingGateway.toAs400Channel(file);
+            processFiletransfer(fileDto)
         } catch (e: Exception) {
             appLogger.info(e.message);
         }
+    }
+
+    fun processFilesToAs400(fileDto: List<FileDto>) {
+        try {
+
+            fileDto.forEach {
+                processFileToAs400(it)
+            }
+        } catch (e: Exception) {
+            appLogger.info(e.message);
+        }
+    }
+
+    fun processFiletransfer(fileDto: FileDto) {
+        appLogger.info("Starting file transfer")
+        val string = decodeBase64String(fileDto)
+        val file = FileUtil.constructFile("${localDirectoryConfig.toPath}/${fileDto.filename}.txt")
+        FileUtil.writeBytes(file, string.toByteArray())
+        appLogger.info("local file: ${FileUtil.absolutePath(file)}")
+        appLogger.info("writing file to smb messaging gateway")
+        smbMessagingGateway.toAs400Channel(file);
     }
 
     fun processFilesToAzureStorage() {
