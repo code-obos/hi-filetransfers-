@@ -7,7 +7,6 @@ import java.io.File
 
 @MessagingGateway
 interface SmbMessagingGateway {
-
     @Gateway(requestChannel = "toAs400Channel")
     fun toAs400Channel(file: File?);
 

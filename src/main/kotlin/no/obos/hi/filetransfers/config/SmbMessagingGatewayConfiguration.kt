@@ -48,6 +48,7 @@ class SmbMessagingGatewayConfiguration() {
     fun smbOutboundFlow(): IntegrationFlow? {
         return IntegrationFlow.from(toAs400Channel)
             .handle(
+
                 Smb.outboundAdapter(smbSessionFactory(), FileExistsMode.REPLACE)
                     .useTemporaryFileName(false)
                     .autoCreateDirectory(true)
@@ -62,7 +63,7 @@ class SmbMessagingGatewayConfiguration() {
                 .preserveTimestamp(true)
                 .remoteDirectory(toDirectory)
                 .autoCreateLocalDirectory(true)
-                .regexFilter(".*\\.txt$")
+                .regexFilter(".*\\.txt$") //this will only listen to txt files
                 .localDirectory(File(localDirPathTo))
                 .deleteRemoteFiles(true)
             ) { e: SourcePollingChannelAdapterSpec ->
