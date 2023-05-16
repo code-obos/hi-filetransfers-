@@ -45,6 +45,10 @@ healthcheck:
     - name: token-service
       url: ${services.token-service.url}
 
+openapi:
+  server:
+    url: /hi-filetransfers/v1/api
+
 services:
   token-service:
     url: ${obos.baseUrl.token-service}/tokenservice
