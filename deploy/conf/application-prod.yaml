@@ -5,16 +5,19 @@ obos:
     app: http://app.obos.no
     token-service: https://sso.obos.no
 
+  localDirPathTo: /opt/app/tmp/to
+  localDirPathFrom: /opt/app/tmp/from
+
   file-server:
     username: ${AS400_USERNAME}
     password: ${AS400_PASSWORD}
     host: obos2.obos.no
     remoteBaseDir: hi
-    localDirPathTo: /opt/app/tmp/to
+    localDirPathTo: ${localDirPathTo}
 
   localdirpath:
-    toPath: /opt/app/tmp/to
-    fromPath: /opt/app/tmp/from
+    toPath: ${localDirPathTo}
+    fromPath: ${localDirPathFrom}
 
 logging:
   config: /opt/app/logback-spring.xml
