@@ -23,9 +23,9 @@ class SmbMessagingProcessor(
     }
 
     fun processFiletransfer(fileDto: FileDto) {
-        val decodedFileContent = String(Base64.getDecoder().decode(fileDto.content))
-        val file = FileUtil.constructFile("${localDirectoryConfig.toPath}/${fileDto.filename}")
-        FileUtil.writeBytes(file, decodedFileContent.toByteArray())
+        val decodedFileContent = Base64.getDecoder().decode(fileDto.content)
+        val file = FileUtil.constructFile("${localDirectoryConfig.toAs400}/${fileDto.filename}")
+        FileUtil.writeBytes(file, decodedFileContent)
         appLogger.info("writing local file to ${FileUtil.absolutePath(file)}")
         appLogger.info("Sending file to smb messaging gateway")
         smbMessagingGateway.toAs400Channel(file)
@@ -33,19 +33,19 @@ class SmbMessagingProcessor(
 
     fun getFilesfromAs400(): List<FileDto>? {
         appLogger.info("Starting file transfer from as400")
-        val files = getLocalFiles(localDirectoryConfig.toPath)
+        val files = getLocalFiles(localDirectoryConfig.fromAs400)
 
         if (files.isNullOrEmpty()) {
             return listOf()
         }
 
-        appLogger.info("Found ${files?.size}")
+        appLogger.info("Found ${files.size}")
         appLogger.info("Storing files in backup folder")
         storeFilesInBackupFolder(files)
 
         val fileDtos = arrayListOf<FileDto>()
 
-        files?.forEach {
+        files.forEach {
             val encodedContent = Base64.getEncoder().encodeToString(it.readBytes())
             fileDtos.add(FileDto(filename = it.name, content = encodedContent))
         }
@@ -67,7 +67,7 @@ class SmbMessagingProcessor(
 
     fun deleteTmpFilesFromAs400() {
         appLogger.info("Deleting tmp files from OnProperty")
-        getLocalFiles(localDirectoryConfig.toPath)?.forEach {
+        getLocalFiles(localDirectoryConfig.fromAs400)?.forEach {
             it.delete()
             appLogger.info("Deleting ${it.name} in folder ${it.absolutePath}")
         }
@@ -75,7 +75,7 @@ class SmbMessagingProcessor(
 
     fun deleteTmpFilesToAs400() {
         appLogger.info("Deleting tmp files to OnProperty")
-        getLocalFiles(localDirectoryConfig.fromPath)?.forEach {
+        getLocalFiles(localDirectoryConfig.toAs400)?.forEach {
             it.delete()
             appLogger.info("Deleting ${it.name} in folder ${it.absolutePath}")
         }

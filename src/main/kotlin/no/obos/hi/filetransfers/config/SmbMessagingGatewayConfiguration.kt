@@ -18,12 +18,12 @@ import java.io.File
 @EnableIntegration
 @ConfigurationProperties(prefix = "file-server")
 @Configuration
-class SmbMessagingGatewayConfiguration() {
+class SmbMessagingGatewayConfiguration {
     lateinit var host: String
     lateinit var username: String
     lateinit var password: String
     lateinit var remoteBaseDir: String
-    lateinit var localDirPathTo: String
+    lateinit var localDirPathFromAs400: String
 
     var toDirectory: String = "onprop/til"
     var fromDirectory: String = "onprop/fra"
@@ -48,7 +48,6 @@ class SmbMessagingGatewayConfiguration() {
     fun smbOutboundFlow(): IntegrationFlow? {
         return IntegrationFlow.from(toAs400Channel)
             .handle(
-
                 Smb.outboundAdapter(smbSessionFactory(), FileExistsMode.REPLACE)
                     .useTemporaryFileName(false)
                     .autoCreateDirectory(true)
@@ -64,7 +63,7 @@ class SmbMessagingGatewayConfiguration() {
                 .remoteDirectory(toDirectory)
                 .autoCreateLocalDirectory(true)
                 .regexFilter(".*\\.txt$") //this will only listen to txt files
-                .localDirectory(File(localDirPathTo))
+                .localDirectory(File(localDirPathFromAs400))
                 .deleteRemoteFiles(true)
             ) { e: SourcePollingChannelAdapterSpec ->
                 e.id("smbInboundAdapter")
@@ -73,7 +72,7 @@ class SmbMessagingGatewayConfiguration() {
             }
             .handle { m: Message<*> ->
                 println(
-                    "Added file ${m.headers["file_name"]} to folder $localDirPathTo"
+                    "Added file ${m.headers["file_name"]} to folder $localDirPathFromAs400"
                 )
             }
             .get()
