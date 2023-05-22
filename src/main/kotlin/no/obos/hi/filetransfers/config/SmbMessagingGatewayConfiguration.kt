@@ -62,7 +62,6 @@ class SmbMessagingGatewayConfiguration {
                 .preserveTimestamp(true)
                 .remoteDirectory(toDirectory)
                 .autoCreateLocalDirectory(true)
-                .regexFilter(".*\\.txt$") //this will only listen to txt files
                 .localDirectory(File(localDirPathFromAs400))
                 .deleteRemoteFiles(true)
             ) { e: SourcePollingChannelAdapterSpec ->

@@ -66,7 +66,7 @@ class SmbMessagingProcessor(
     }
 
     fun deleteTmpFilesFromAs400() {
-        appLogger.info("Deleting tmp files from OnProperty")
+        appLogger.info("Deleting tmp files from As400")
         getLocalFiles(localDirectoryConfig.fromAs400)?.forEach {
             it.delete()
             appLogger.info("Deleting ${it.name} in folder ${it.absolutePath}")
@@ -74,7 +74,7 @@ class SmbMessagingProcessor(
     }
 
     fun deleteTmpFilesToAs400() {
-        appLogger.info("Deleting tmp files to OnProperty")
+        appLogger.info("Deleting tmp files to As400")
         getLocalFiles(localDirectoryConfig.toAs400)?.forEach {
             it.delete()
             appLogger.info("Deleting ${it.name} in folder ${it.absolutePath}")
