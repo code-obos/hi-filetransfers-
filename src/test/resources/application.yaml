@@ -3,16 +3,17 @@ spring:
   application:
     name: hi-filetransfers
 
-localDirPathTo: ./resources/tmp/to
-localDirPathFrom: ./resources/tmp/from
+localDirPathToAs400: ./resources/tmp/to
+localDirPathFromAs400: ./resources/tmp/from
 
 file-server:
   username: mock
   password: mock
   host: mock
   remoteBaseDir: hi
-  localDirPathTo: ${localDirPathTo}
+  localDirPathToAs400: ${localDirPathToAs400}
+  localDirPathFromAs400: ${localDirPathFromAs400}
 
 localdirpath:
-  toPath: ${localDirPathTo}
-  fromPath: ${localDirPathFrom}
+  toAs400: ${localDirPathToAs400}
+  fromAs400: ${localDirPathFromAs400}
