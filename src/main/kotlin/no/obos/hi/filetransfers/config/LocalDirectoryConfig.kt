@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "localdirpath")
 @Configuration
 class LocalDirectoryConfig {
-    lateinit var toPath: String
-    lateinit var fromPath: String
+    lateinit var toAs400: String
+    lateinit var fromAs400: String
 }

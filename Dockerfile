@@ -22,9 +22,8 @@ RUN mkdir -p ${APP_DIR}  \
     && mkdir -p opt/conf  \
     && mkdir -p /opt/log  \
     && mkdir -p /opt/log_old  \
-    && mkdir -p /opt/app/tmp/from  \
-    && mkdir -p /opt/app/tmp/to \
-    && mkdir -p /opt/app/tmp/from
+    && mkdir -p /opt/app/tmp/fromAs400  \
+    && mkdir -p /opt/app/tmp/toAs400
 
 RUN chown -R spring:spring /opt
 
