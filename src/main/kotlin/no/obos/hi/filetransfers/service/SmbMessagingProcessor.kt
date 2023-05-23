@@ -13,63 +13,70 @@ class SmbMessagingProcessor(
     val localDirectoryConfig: LocalDirectoryConfig,
     val appLogger: Logger
 ) {
-    fun processFilesToAs400(fileDtos: List<FileDto>) {
-        appLogger.info("Starting file transfer to as400")
-        appLogger.info("Files to transfer ${fileDtos.size}")
+    fun saveFiles(fileDtos: List<FileDto>) {
+        appLogger.info("Files to save ${fileDtos.size}")
+
+        if (fileDtos.isEmpty()) {
+            appLogger.info("No files to transfer")
+            return;
+        }
 
         fileDtos.forEach {
-            processFiletransfer(it)
+            saveFile(it)
         }
     }
 
-    fun processFiletransfer(fileDto: FileDto) {
-        val decodedFileContent = Base64.getDecoder().decode(fileDto.content)
-        val file = FileUtil.constructFile("${localDirectoryConfig.toAs400}/${fileDto.filename}")
-        FileUtil.writeBytes(file, decodedFileContent)
-        appLogger.info("writing local file to ${FileUtil.absolutePath(file)}")
-        appLogger.info("Sending file to smb messaging gateway")
-        smbMessagingGateway.toAs400Channel(file)
+    fun saveFile(fileDto: FileDto) {
+        try {
+            val decodedFileContent = Base64.getDecoder().decode(fileDto.content)
+            val file = FileUtil.constructFile("${localDirectoryConfig.toAs400}/${fileDto.filename}")
+            FileUtil.writeBytes(file, decodedFileContent)
+            appLogger.info("writing local file to ${FileUtil.absolutePath(file)}")
+            appLogger.info("Sending file to smb messaging gateway")
+            smbMessagingGateway.toAs400Channel(file)
+        } catch (e: Exception) {
+            appLogger.error("Failed to store files to As400 with message: ${e.message}")
+        }
     }
 
-    fun getFilesfromAs400(): List<FileDto>? {
-        appLogger.info("Starting file transfer from as400")
-        val files = getLocalFiles(localDirectoryConfig.fromAs400)
-
-        if (files.isNullOrEmpty()) {
-            return listOf()
-        }
-
-        appLogger.info("Found ${files.size}")
-        appLogger.info("Storing files in backup folder")
-        storeFilesInBackupFolder(files)
-
+    fun getFiles(): List<FileDto>? {
         val fileDtos = arrayListOf<FileDto>()
+        try {
+            val files = getLocalFiles(localDirectoryConfig.fromAs400)
 
-        files.forEach {
-            val encodedContent = Base64.getEncoder().encodeToString(it.readBytes())
-            fileDtos.add(FileDto(filename = it.name, content = encodedContent))
+            if (files.isNullOrEmpty()) {
+                appLogger.info("No files found")
+                return listOf()
+            }
+
+            appLogger.info("Found ${files.size}")
+            appLogger.info("Storing ${files.size} files in backup folder")
+            saveFilesInBackupFolder(files)
+
+            files.forEach {
+                val encodedContent = Base64.getEncoder().encodeToString(it.readBytes())
+                fileDtos.add(FileDto(filename = it.name, content = encodedContent))
+            }
+
+            return fileDtos
+        } catch (e : Exception) {
+            appLogger.error("Failed to export files from As400 with message: ${e.message}")
         }
-
-        return fileDtos
+        return fileDtos;
     }
 
-    fun storeFilesInBackupFolder(files: Array<out File>?) {
-        appLogger.info("Storing files in backup folder")
+    fun saveFilesInBackupFolder(files: Array<out File>?) {
         files?.forEach {
             smbMessagingGateway.toBackupInAs400Channel(it)
+            appLogger.info("Saved ${it.name} in backup folder")
         }
-    }
-
-    fun getLocalFiles(pathName: String): Array<out File>? {
-        val folder = File(pathName)
-        return folder.listFiles()
     }
 
     fun deleteTmpFilesFromAs400() {
         appLogger.info("Deleting tmp files from As400")
         getLocalFiles(localDirectoryConfig.fromAs400)?.forEach {
             it.delete()
-            appLogger.info("Deleting ${it.name} in folder ${it.absolutePath}")
+            appLogger.info("Deleted ${it.name} in folder ${it.absolutePath}")
         }
     }
 
@@ -77,8 +84,13 @@ class SmbMessagingProcessor(
         appLogger.info("Deleting tmp files to As400")
         getLocalFiles(localDirectoryConfig.toAs400)?.forEach {
             it.delete()
-            appLogger.info("Deleting ${it.name} in folder ${it.absolutePath}")
+            appLogger.info("Deleted ${it.name} in folder ${it.absolutePath}")
         }
+    }
+
+    fun getLocalFiles(pathName: String): Array<out File>? {
+        val folder = File(pathName)
+        return folder.listFiles()
     }
 
     @Suppress("RedundantNullableReturnType")

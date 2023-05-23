@@ -14,7 +14,6 @@ import org.springframework.integration.smb.session.SmbSessionFactory
 import org.springframework.messaging.Message
 import java.io.File
 
-
 @EnableIntegration
 @ConfigurationProperties(prefix = "file-server")
 @Configuration
@@ -87,5 +86,4 @@ class SmbMessagingGatewayConfiguration {
                     .remoteDirectory(backupDirectory)
             ).get()
     }
-
 }

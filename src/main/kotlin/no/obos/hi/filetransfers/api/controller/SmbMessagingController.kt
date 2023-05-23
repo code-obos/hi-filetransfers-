@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @Tag(
-    name = "transfer controller"
+    name = "Filetransfer controller"
 )
 
 @RestController
@@ -20,30 +20,13 @@ import org.springframework.web.bind.annotation.*
 class SmbMessagingController(
     val smbMessagingProcessor: SmbMessagingProcessor,
     val appLogger: Logger
-
 ) : TokenServiceController {
-    @PostMapping("files")
-    @Operation(description = "Stores files in to AS400")
-    fun process(@RequestBody @Valid fileDtos: List<FileDto>): ResponseEntity<*> {
-        return try {
-            appLogger.info("Starting file transfer to as400")
-            smbMessagingProcessor.processFilesToAs400(fileDtos)
-            ResponseEntity.status(HttpStatus.OK).body(null)
-        } catch (e: Exception) {
-            appLogger.error("Failed to transfer files")
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.message)
-        } finally {
-            appLogger.info("Successfully transfered files")
-            smbMessagingProcessor.deleteTmpFilesToAs400()
-        }
-    }
-
     @GetMapping("files")
-    @Operation(description = "Fetches files from AS400")
+    @Operation(description = "Export files from AS400")
     fun process(): ResponseEntity<*> {
         return try {
-            appLogger.info("Starting file transfer from as400")
-            val files = smbMessagingProcessor.getFilesfromAs400()
+            appLogger.info("Starting exporting files from As400")
+            val files = smbMessagingProcessor.getFiles()
             ResponseEntity.status(HttpStatus.OK).body(files)
         } catch (e: Exception) {
             appLogger.error("Failed to transfer files")
@@ -51,6 +34,22 @@ class SmbMessagingController(
         } finally {
             appLogger.info("Successfully transfered files")
             smbMessagingProcessor.deleteTmpFilesFromAs400()
+        }
+    }
+
+    @PostMapping("files")
+    @Operation(description = "Save files in to As400")
+    fun process(@RequestBody @Valid fileDtos: List<FileDto>): ResponseEntity<*> {
+        return try {
+            appLogger.info("Starting file storage to As400")
+            smbMessagingProcessor.saveFiles(fileDtos)
+            ResponseEntity.status(HttpStatus.OK).body(null)
+        } catch (e: Exception) {
+            appLogger.error("Failed to transfer files")
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.message)
+        } finally {
+            appLogger.info("Successfully transfered files")
+            smbMessagingProcessor.deleteTmpFilesToAs400()
         }
     }
 }
